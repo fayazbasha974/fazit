@@ -17,14 +17,10 @@ mongoose.connect(process.env.mongoDB, (...args) => {
 
 var app = express();
 
-// const io = socketIO(server);
-
-
 app.use(cors());
 
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-io.set('origins', '*');
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 
 // view engine setup
@@ -64,4 +60,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = {app: app, server: server};
