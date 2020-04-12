@@ -4,10 +4,28 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const socketIO = require('socket.io');
+
+require('dotenv/config');
+
+mongoose.connect(process.env.mongoDB, (...args) => {
+    console.log('DB connected');
+});
+
 
 var app = express();
+
+// const io = socketIO(server);
+
+
+app.use(cors());
+
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+io.set('origins', '*');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +37,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/auth', require('./routes/auth'));
+
+require('./routes/login.js')(app);
+app.use('/signup', require('./routes/signup.js'));
+app.use('/auth/friendRequest', require('./routes/friend-request'));
+app.use('/auth/acceptRequest', require('./routes/accept-request'));
+app.use('/auth/getDetails', require('./routes/get-details'));
+// app.use('/auth/message', require('./routes/message'));
+require('./routes/message')(app, io);
+app.use('/auth/findFriend', require('./routes/find-friend'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
