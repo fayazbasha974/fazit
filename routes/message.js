@@ -17,7 +17,7 @@ const schema = mongoose.Schema({
     }
 });
 
-module.exports = (app, io) => {
+module.exports = (app, io, users) => {
     app.post('/auth/message', (req, res) => {
         const MessageCollection = getSchema(req);
         const message = {
@@ -30,7 +30,8 @@ module.exports = (app, io) => {
             if (err) {
                 res.json(err);
             } else {
-                io.sockets.emit('msg', docs);
+                // io.sockets.emit('msg', docs);
+                io.to(users[req.body.mobileNumber]).emit('msg', docs);
                 res.json(docs);
             }
         });

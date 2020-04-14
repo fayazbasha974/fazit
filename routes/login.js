@@ -15,7 +15,7 @@ module.exports = function(app) {
                     const token = jwt.sign({mobileNumber: req.body.mobileNumber, id: user[0]['_id']}, 'secret', {
                         // expiresIn: 600
                     });
-                    res.json({ success: 'login succesfully', token});
+                    res.json({ success: 'login succesfully', token, mobileNumber: user[0]['mobileNumber']});
                 }
             } else {
                 res.json({message: 'Not a member'});
@@ -23,7 +23,6 @@ module.exports = function(app) {
         } catch(error) {
             res.json({ 'error': error });
         }
-        next();
     });
 
     app.get('', function(req, res) {

@@ -6,7 +6,6 @@ var logger = require('morgan');
 
 const mongoose = require('mongoose');
 const cors = require('cors');
-const socketIO = require('socket.io');
 
 require('dotenv/config');
 
@@ -21,7 +20,15 @@ app.use(cors());
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-
+var users = {};
+io.on('connection', (socket) => {
+  socket.on('changeId', (mobileNumber) => {
+    console.log(socket.id, mobileNumber);
+    // socket.id = data.mobileNumber;
+    users[mobileNumber] = socket.id;
+    console.log(users);
+  });
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,7 +48,7 @@ app.use('/auth/friendRequest', require('./routes/friend-request'));
 app.use('/auth/acceptRequest', require('./routes/accept-request'));
 app.use('/auth/getDetails', require('./routes/get-details'));
 // app.use('/auth/message', require('./routes/message'));
-require('./routes/message')(app, io);
+require('./routes/message')(app, io, users);
 app.use('/auth/findFriend', require('./routes/find-friend'));
 
 // catch 404 and forward to error handler
