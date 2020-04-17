@@ -43,13 +43,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', require('./routes/auth'));
 
 require('./routes/login.js')(app);
-app.use('/signup', require('./routes/signup.js'));
-app.use('/auth/friendRequest', require('./routes/friend-request'));
-app.use('/auth/acceptRequest', require('./routes/accept-request'));
-app.use('/auth/getDetails', require('./routes/get-details'));
-// app.use('/auth/message', require('./routes/message'));
+require('./routes/signup.js')(app);
+require('./routes/friend-request')(app);
+require('./routes/accept-request')(app);
+require('./routes/get-details')(app);
+require('./routes/find-friend')(app);
 require('./routes/message')(app, io, users);
-app.use('/auth/findFriend', require('./routes/find-friend'));
+
+// app.use('/signup', require('./routes/signup.js'));
+// app.use('/auth/friendRequest', require('./routes/friend-request'));
+// app.use('/auth/acceptRequest', require('./routes/accept-request'));
+// app.use('/auth/getDetails', require('./routes/get-details'));
+// app.use('/auth/message', require('./routes/message'));
+// app.use('/auth/findFriend', require('./routes/find-friend'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
