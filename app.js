@@ -10,7 +10,6 @@ const cors = require('cors');
 require('dotenv/config');
 
 mongoose.connect(process.env.mongoDB, (...args) => {
-    console.log('DB connected');
 });
 
 
@@ -23,10 +22,7 @@ var io = require('socket.io')(server);
 var users = {};
 io.on('connection', (socket) => {
   socket.on('changeId', (mobileNumber) => {
-    console.log(socket.id, mobileNumber);
-    // socket.id = data.mobileNumber;
     users[mobileNumber] = socket.id;
-    console.log(users);
   });
 });
 
