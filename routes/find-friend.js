@@ -8,13 +8,18 @@ module.exports = function (app) {
                 { mobileNumber: req.body.mobileNumber },
                 { mobileNumber: { $ne: req.user.mobileNumber } },
                 { friends: { $ne: req.user.id } },
-                { sentRequests: { $ne: req.user.id } }
+                { sentRequests: { $nin: [req.user.id] } }
             ]
-        }, { mobileNumber: 1, displayName: 1 }, (err, docs) => {
+        }, (err, docs) => {
             if (err) {
                 res.json(err);
             } else {
-                res.json(docs);
+                const user = docs[0];
+                if (user.friendRequests.indexOf(req.user.id) >= 0) {
+                    res.json({ msg: 'Already Sent' });
+                } else {
+                    res.json([{ displayName: user.displayName, mobileNumber: user.mobileNumber }]);
+                }
             }
         });
     });

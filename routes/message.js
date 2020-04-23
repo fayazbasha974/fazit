@@ -1,18 +1,12 @@
-// const express = require('express');
-// const router = express.Router();
 const mongoose = require('mongoose');
 const schema = mongoose.Schema({
     msg: {
         type: String
     },
     sender: {
-        // type: mongoose.Schema.Types.ObjectId,
-        // ref: 'User'
         type: Number
     },
     reciever: {
-        // type: mongoose.Schema.Types.ObjectId,
-        // ref: 'User'
         type: Number
     }
 });
@@ -30,7 +24,6 @@ module.exports = (app, io, users) => {
             if (err) {
                 res.json(err);
             } else {
-                // io.sockets.emit('msg', docs);
                 io.to(users[req.body.mobileNumber]).emit('msg', docs);
                 res.json(docs);
             }
@@ -39,24 +32,6 @@ module.exports = (app, io, users) => {
 
     app.post('/auth/message/chat', (req, res) => {
         const MessageCollection = getSchema(req);
-        // MessageCollection.aggregate([
-        //     {
-        //         $project: {
-        //             _id: 0,
-        //             'message': '$msg',
-        //             'sender': {
-        //                 $cond: [{ $eq: ["$sender", req.user.mobileNumber] }, true, false]
-        //             }
-        //         }
-        //     }
-        // ], (err, docs) => {
-        //     if (err) {
-        //         res.json(err);
-        //     } else {
-        //         io.sockets.emit('msg', docs);
-        //         res.json(docs);
-        //     }
-        // });
         MessageCollection.find({}, (err, docs) => {
             if (err) {
                 res.json(err);

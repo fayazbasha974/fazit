@@ -13,7 +13,6 @@ module.exports = function(app) {
                 }
             }, (err, docs) => {
                 if (docs) {
-                    // res.json({message: 'updated'});
                     User.update({ mobileNumber: req.user.mobileNumber }, {
                         $push: {
                             'sentRequests': req.body._id
