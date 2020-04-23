@@ -10,6 +10,9 @@ module.exports = function (app) {
             {
                 $push: {
                     'friends': req.user.id
+                },
+                $pull: {
+                    'sentRequests': req.body.id
                 }
             },
             (err, docs) => {

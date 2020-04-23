@@ -7,7 +7,8 @@ module.exports = function (app) {
             $and: [
                 { mobileNumber: req.body.mobileNumber },
                 { mobileNumber: { $ne: req.user.mobileNumber } },
-                { friends: { $ne: req.user.id } }
+                { friends: { $ne: req.user.id } },
+                { sentRequests: { $ne: req.user.id } }
             ]
         }, { mobileNumber: 1, displayName: 1 }, (err, docs) => {
             if (err) {
