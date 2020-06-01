@@ -46,6 +46,9 @@ require('./routes/reject-request')(app);
 require('./routes/get-details')(app);
 require('./routes/find-friend')(app);
 require('./routes/message')(app, io, users);
+app.get('/*',function(req,res){
+  res.sendFile(__dirname+'/dist/index.html');
+});
 
 // app.use('/signup', require('./routes/signup.js'));
 // app.use('/auth/friendRequest', require('./routes/friend-request'));

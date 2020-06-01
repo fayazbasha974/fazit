@@ -25,7 +25,7 @@ module.exports = function(app) {
         }
     });
 
-    app.get('', function(req, res) {
-        res.json({working: 'yes'});
-    });
+    // app.get('', function(req, res) {
+    //     res.json({working: 'yes'});
+    // });
 };
