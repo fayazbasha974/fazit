@@ -34,8 +34,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 // app.use('/auth', require('./routes/auth'));
 
 // require('./routes/login.js')(app);
@@ -47,7 +47,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // require('./routes/find-friend')(app);
 // require('./routes/message')(app, io, users);
 app.get('/*',function(req,res){
-  res.sendFile(__dirname+'/dist/index.html');
+  res.sendFile(path.join(__dirname+'/dist'));
+  // app.use(express.static(path.join(__dirname, 'dist/')));
 });
 
 // app.use('/signup', require('./routes/signup.js'));
