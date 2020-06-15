@@ -36,16 +36,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/auth', require('./routes/auth'));
+// app.use('/auth', require('./routes/auth'));
 
-require('./routes/login.js')(app);
-require('./routes/signup.js')(app);
-require('./routes/friend-request')(app);
-require('./routes/accept-request')(app);
-require('./routes/reject-request')(app);
-require('./routes/get-details')(app);
-require('./routes/find-friend')(app);
-require('./routes/message')(app, io, users);
+// require('./routes/login.js')(app);
+// require('./routes/signup.js')(app);
+// require('./routes/friend-request')(app);
+// require('./routes/accept-request')(app);
+// require('./routes/reject-request')(app);
+// require('./routes/get-details')(app);
+// require('./routes/find-friend')(app);
+// require('./routes/message')(app, io, users);
 app.get('/*',function(req,res){
   res.sendFile(__dirname+'/dist/index.html');
 });
